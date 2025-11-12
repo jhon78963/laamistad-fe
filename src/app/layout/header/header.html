@@ -15,11 +15,6 @@
       >Noticias</a
     >
     <a
-      [routerLink]="['/reservar']"
-      class="text-gray-600 hover:text-green-600 transition duration-300"
-      >Reserva de Canchas</a
-    >
-    <a
       [routerLink]="['/']"
       fragment="galeria"
       class="text-gray-600 hover:text-green-600 transition duration-300"
@@ -31,21 +26,6 @@
       class="text-gray-600 hover:text-green-600 transition duration-300"
       >Contáctanos</a
     >
-    @if (isLogin) {
-      <a
-        [routerLink]="'/admin'"
-        class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300 shadow"
-      >
-        Admin
-      </a>
-    } @else {
-      <a
-        [routerLink]="'/'"
-        class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300 shadow"
-      >
-        Iniciar Sesión
-      </a>
-    }
   </div>
 
   <div class="md:hidden">
@@ -78,12 +58,6 @@
     >Noticias</a
   >
   <a
-    [routerLink]="'reservar'"
-    (click)="closeMobileMenu()"
-    class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
-    >Reserva de Canchas</a
-  >
-  <a
     [routerLink]="['/']"
     fragment="galeria"
     (click)="closeMobileMenu()"
@@ -97,19 +71,4 @@
     class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
     >Contáctanos</a
   >
-  @if (isLogin) {
-    <a
-      [routerLink]="'/admin'"
-      (click)="closeMobileMenu()"
-      class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
-      >Admin</a
-    >
-  } @else {
-    <a
-      [routerLink]="'/'"
-      (click)="closeMobileMenu()"
-      class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
-      >Iniciar Sesión</a
-    >
-  }
 </div>
