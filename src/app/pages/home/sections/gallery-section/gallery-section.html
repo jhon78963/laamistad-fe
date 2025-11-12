@@ -1,0 +1,22 @@
+<section id="galeria" class="py-[85px] bg-white scroll-mt-20">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-green-600">Nuestra Galería</h2>
+      <p class="text-gray-600 mt-2">Un vistazo a los mejores momentos en el Parque La Amistad.</p>
+    </div>
+    <div class="columns-2 md:columns-4 gap-4">
+      @for (img of galleryImages; track $index) {
+        <div class="mb-4 break-inside-avoid">
+          <img
+            [src]="img.src"
+            [alt]="img.alt"
+            [width]="img.width"
+            [height]="img.height"
+            class="h-auto max-w-full rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+          />
+        </div>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+<div
+  class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300"
+>
+  <a [routerLink]="newsCard.link" class="block">
+    <img
+      [src]="newsCard.imgSrc"
+      [alt]="newsCard.title"
+      width="600px"
+      height="400px"
+      class="w-full h-48 object-cover"
+    />
+  </a>
+  <div class="p-6">
+    <span class="text-sm text-gray-500">{{ newsCard.date }}</span>
+    <h3 class="text-xl font-bold mt-2 mb-3">
+      <a [routerLink]="newsCard.link" class="hover:text-green-600 transition-colors">
+        {{ newsCard.title }}
+      </a>
+    </h3>
+    <p class="text-gray-700 mb-4">{{ newsCard.excerpt }}</p>
+    <a [routerLink]="newsCard.link" class="text-green-600 font-semibold hover:underline">
+      Leer más →
+    </a>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="bg-white rounded-xl shadow-lg p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h3 class="text-xl font-bold">Gestionar Noticias</h3>
+    <a
+      [routerLink]="'/admin/noticias/crear'"
+      class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
+    >
+      <fa-icon [icon]="faPlus"></fa-icon>
+      Crear Noticia
+    </a>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="p-3 font-semibold text-sm">Título</th>
+          <th class="p-3 font-semibold text-sm">Fecha</th>
+          <th class="p-3 font-semibold text-sm">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of news; track $index) {
+          <tr class="border-b">
+            <td class="p-3">{{ item.title }}</td>
+            <td class="p-3">{{ item.date }}</td>
+            <td class="p-3 flex gap-2">
+              <a
+                [routerLink]="'/admin/noticias/editar/' + item.id"
+                class="text-blue-500 hover:text-blue-700"
+                title="Editar"
+              >
+                <fa-icon [icon]="faPencil"></fa-icon>
+              </a>
+              <button
+                (click)="handleDelete(item.id)"
+                class="text-red-500 hover:text-red-700"
+                title="Eliminar"
+              >
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

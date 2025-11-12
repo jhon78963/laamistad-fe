@@ -1,0 +1,115 @@
+<nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+  <a [routerLink]="['/']" class="text-2xl font-bold text-green-600 flex items-center">
+    <img src="/images/logo.jpeg" alt="logo" width="38" height="38" class="mr-2" />
+    Parque La Amistad
+  </a>
+
+  <div class="hidden md:flex space-x-6 items-center">
+    <a [routerLink]="['/']" class="text-gray-600 hover:text-green-600 transition duration-300"
+      >Inicio</a
+    >
+    <a
+      [routerLink]="['/']"
+      fragment="noticias"
+      class="text-gray-600 hover:text-green-600 transition duration-300"
+      >Noticias</a
+    >
+    <a
+      [routerLink]="['/reservar']"
+      class="text-gray-600 hover:text-green-600 transition duration-300"
+      >Reserva de Canchas</a
+    >
+    <a
+      [routerLink]="['/']"
+      fragment="galeria"
+      class="text-gray-600 hover:text-green-600 transition duration-300"
+      >Galería</a
+    >
+    <a
+      [routerLink]="['/']"
+      fragment="contacto"
+      class="text-gray-600 hover:text-green-600 transition duration-300"
+      >Contáctanos</a
+    >
+    @if (isLogin) {
+      <a
+        [routerLink]="'/admin'"
+        class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300 shadow"
+      >
+        Admin
+      </a>
+    } @else {
+      <a
+        [routerLink]="'/'"
+        class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 transition duration-300 shadow"
+      >
+        Iniciar Sesión
+      </a>
+    }
+  </div>
+
+  <div class="md:hidden">
+    <button
+      id="mobile-menu-button"
+      class="text-gray-600 hover:text-green-600 focus:outline-none"
+      (click)="toggleMobileMenu()"
+      aria-label="Abrir menú"
+    >
+      <fa-icon [icon]="faBars" class="text-2xl"></fa-icon>
+    </button>
+  </div>
+</nav>
+
+<div
+  id="mobile-menu"
+  [ngClass]="isMobileMenuOpen ? 'block md:hidden bg-white' : 'hidden md:hidden bg-white'"
+>
+  <a
+    [routerLink]="['/']"
+    (click)="closeMobileMenu()"
+    class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
+    >Inicio</a
+  >
+  <a
+    [routerLink]="['/']"
+    fragment="noticias"
+    (click)="closeMobileMenu()"
+    class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
+    >Noticias</a
+  >
+  <a
+    [routerLink]="'reservar'"
+    (click)="closeMobileMenu()"
+    class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
+    >Reserva de Canchas</a
+  >
+  <a
+    [routerLink]="['/']"
+    fragment="galeria"
+    (click)="closeMobileMenu()"
+    class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
+    >Galería</a
+  >
+  <a
+    [routerLink]="['/']"
+    fragment="contacto"
+    (click)="closeMobileMenu()"
+    class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
+    >Contáctanos</a
+  >
+  @if (isLogin) {
+    <a
+      [routerLink]="'/admin'"
+      (click)="closeMobileMenu()"
+      class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
+      >Admin</a
+    >
+  } @else {
+    <a
+      [routerLink]="'/'"
+      (click)="closeMobileMenu()"
+      class="block py-2 px-6 text-sm text-gray-600 hover:bg-green-50"
+      >Iniciar Sesión</a
+    >
+  }
+</div>

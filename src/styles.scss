@@ -1,0 +1,38 @@
+@use 'tailwindcss';
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #16a34a;
+}
+
+.time-slot {
+  transition: all 0.2s ease-in-out;
+}
+.time-slot.available:hover {
+  color: #fff;
+  background-color: #16a34a;
+  transform: scale(1.05);
+}
+.time-slot.selected {
+  background-color: #22c55e; /* green-500 */
+  color: white;
+  border-color: #16a34a;
+}

@@ -1,0 +1,33 @@
+/* Estilo para el día seleccionado en el calendario */
+.calendar-day.selected {
+  background-color: #22c55e; /* green-500 */
+  color: white;
+}
+
+/* Estilos para los horarios */
+.time-slot.available:hover {
+  background-color: #27a349; /* green-100 */
+  border-color: #22c55e; /* green-500 */
+}
+
+.time-slot.selected {
+  background-color: #22c55e; /* green-500 */
+  color: white;
+  border-color: #16a34a; /* green-600 */
+}
+
+/* Estilos para scrollbar (opcional pero mejora la estética) */
+#time-slots-container::-webkit-scrollbar {
+  width: 6px;
+}
+#time-slots-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+#time-slots-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+#time-slots-container::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}

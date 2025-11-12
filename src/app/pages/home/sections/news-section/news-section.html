@@ -1,0 +1,31 @@
+<section
+  id="noticias"
+  class="bg-white scroll-mt-20"
+  [class.py-[85px]]="newsData.length > 0"
+  [class.pt-[85px]]="newsData.length === 0"
+  [class.pt-0]="newsData.length === 0"
+>
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-green-600">Últimas Noticias</h2>
+      <p class="text-gray-600 mt-2">
+        Mantente informado sobre los eventos y novedades de nuestro parque.
+      </p>
+    </div>
+
+    @if (newsData.length > 0) {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @for (newsCard of newsData; track newsCard.id) {
+          <app-news-card [newsCard]="newsCard" />
+        }
+      </div>
+    } @else {
+      <div class="flex flex-col items-center justify-center text-center text-gray-500">
+        <p class="text-lg font-medium">No hay noticias disponibles</p>
+        <p class="text-sm text-gray-400 mt-1">
+          Vuelve más tarde para conocer las últimas actualizaciones.
+        </p>
+      </div>
+    }
+  </div>
+</section>

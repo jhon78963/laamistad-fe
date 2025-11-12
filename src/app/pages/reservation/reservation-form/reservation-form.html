@@ -1,0 +1,450 @@
+<!-- Contenedor principal que maneja los 3 pasos -->
+<div class="bg-white rounded-xl shadow-lg p-6 md:p-8 w-full max-w-4xl mx-auto">
+  @switch (currentStep()) {
+    <!-- ====================================== -->
+    <!-- PASO 1: RESERVA (Tu código original) -->
+    <!-- ====================================== -->
+    @case ('booking') {
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Columna 1: Calendario -->
+        <div>
+          <h3 class="text-xl font-bold text-gray-800 mb-4">1. Elige una fecha</h3>
+          <div class="bg-white rounded-lg">
+            <!-- Cabecera del Calendario -->
+            <div class="flex justify-between items-center mb-4">
+              <button
+                (click)="handleMonthChange(-1)"
+                class="p-2 rounded-full hover:bg-gray-100"
+                aria-label="Mes anterior"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 320 512"
+                  fill="currentColor"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+                  />
+                </svg>
+              </button>
+              <h3 id="month-year" class="font-bold text-lg">
+                {{ monthNames[month()] }} {{ year() }}
+              </h3>
+              <button
+                (click)="handleMonthChange(1)"
+                class="p-2 rounded-full hover:bg-gray-100"
+                aria-label="Mes siguiente"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 320 512"
+                  fill="currentColor"
+                  class="w-4 h-4"
+                >
+                  <path
+                    d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <!-- Días de la semana -->
+            <div class="grid grid-cols-7 gap-2 text-center text-sm text-gray-500 mb-2">
+              <div>Dom</div>
+              <div>Lun</div>
+              <div>Mar</div>
+              <div>Mié</div>
+              <div>Jue</div>
+              <div>Vie</div>
+              <div>Sáb</div>
+            </div>
+            <!-- Días del mes -->
+            <div id="calendar-days" class="grid grid-cols-7 gap-2">
+              @for (dayInfo of calendarDays(); track dayInfo.key) {
+                @if (dayInfo.day) {
+                  <div
+                    [class]="
+                      'calendar-day p-2 text-center cursor-pointer hover:bg-green-100 rounded-full transition-all ' +
+                      (selectedDay() === dayInfo.day ? 'selected' : '')
+                    "
+                    (click)="selectDay(dayInfo.day)"
+                  >
+                    {{ dayInfo.day }}
+                  </div>
+                } @else {
+                  <div></div>
+                }
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna 2: Cancha y Hora -->
+        <div>
+          <h3 class="text-xl font-bold text-gray-800 mb-4">2. Elige Cancha y Hora</h3>
+          <div class="mb-4">
+            <label htmlFor="court" class="block text-gray-700 font-medium mb-2"
+              >Cancha Deportiva</label
+            >
+            <select
+              id="court"
+              name="court"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              [value]="selectedCourt()"
+              (change)="onCourtChange($event)"
+            >
+              <option>Cancha de Vóley</option>
+              <option>Cancha de Fulbito</option>
+            </select>
+          </div>
+          <!-- Horarios -->
+          <div id="time-slots-container" class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+            @for (time of ALL_TIME_SLOTS; track time) {
+              <div [class]="getTimeSlotClasses(time)" (click)="handleTimeSlotClick(time)">
+                {{ time }}
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen y Pago (Paso 1) -->
+      <div class="mt-8 pt-6 border-t">
+        <h3 class="text-xl font-bold text-gray-800">3. Resumen de Reserva</h3>
+        <div class="flex flex-col sm:flex-row justify-between items-start mt-4 gap-6">
+          <div class="flex-1 space-y-2 w-full">
+            <p class="flex justify-between">
+              <span class="text-gray-600">Fecha:</span
+              ><span class="font-bold text-right">{{ formattedSelectedDate() }}</span>
+            </p>
+            <p class="flex justify-between">
+              <span class="text-gray-600">Cancha:</span
+              ><span class="font-bold text-right">{{ selectedCourt() }}</span>
+            </p>
+            <div class="flex justify-between">
+              <p class="text-gray-600">Horarios:</p>
+              @if (selectedSlotRanges().length > 0) {
+                <ul class="mt-1 space-y-1 text-right">
+                  @for (range of selectedSlotRanges(); track range) {
+                    <li class="font-bold text-gray-800">{{ range }}</li>
+                  }
+                </ul>
+              } @else {
+                <p class="text-gray-500 italic text-right">No has seleccionado horarios.</p>
+              }
+            </div>
+          </div>
+          <div
+            class="text-left sm:text-right w-full sm:w-auto sm:min-w-[200px] bg-gray-50 p-4 rounded-lg"
+          >
+            <p class="text-gray-600">Total a pagar:</p>
+            <p class="text-3xl font-bold text-green-600">
+              S/ <span id="summary-total">{{ totalPrice().toFixed(2) }}</span>
+            </p>
+            @if (selectedSlots().length > 0) {
+              <p class="text-sm text-gray-500 mt-1">
+                ({{ selectedSlots().length }} hora(s) a S/ {{ HOURLY_RATE.toFixed(2) }} c/u)
+              </p>
+            }
+          </div>
+        </div>
+
+        <!-- Mensaje de error (si existe) -->
+        @if (errorMessage()) {
+          <div class="mt-4 p-3 bg-red-100 text-red-700 rounded-lg text-center">
+            {{ errorMessage() }}
+          </div>
+        }
+
+        <button
+          class="w-full mt-6 text-white font-bold py-3 rounded-lg transition-all shadow-md"
+          (click)="proceedToVerification()"
+          [disabled]="selectedSlots().length === 0 || !selectedDay()"
+          [class]="
+            selectedSlots().length === 0 || !selectedDay()
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-green-500 hover:bg-green-600'
+          "
+        >
+          Proceder a Verificación
+        </button>
+      </div>
+    }
+
+    <!-- ====================================== -->
+    <!-- PASO 2: VERIFICACIÓN (Nuevo) -->
+    <!-- ====================================== -->
+    @case ('verification') {
+      <div class="animate-fade-in">
+        <h3 class="text-xl font-bold text-gray-800">4. Verifica tu Identidad</h3>
+        <p class="text-gray-600 mt-1">Ya casi terminamos. Por favor, completa tus datos.</p>
+
+        <!-- Resumen de la reserva -->
+        <div class="my-6 p-4 bg-gray-50 rounded-lg border">
+          <h4 class="font-bold text-gray-800">Tu Reserva:</h4>
+          <p>
+            <span class="text-gray-600">Fecha:</span>
+            <span class="font-medium">{{ formattedSelectedDate() }}</span>
+          </p>
+          <p>
+            <span class="text-gray-600">Cancha:</span>
+            <span class="font-medium">{{ selectedCourt() }}</span>
+          </p>
+          <p>
+            <span class="text-gray-600">Horarios:</span>
+            <span class="font-medium">{{ selectedSlotRanges().join(', ') }}</span>
+          </p>
+          <p class="mt-2 text-lg">
+            <span class="text-gray-600">Total:</span>
+            <span class="font-bold text-green-600">S/ {{ totalPrice().toFixed(2) }}</span>
+          </p>
+        </div>
+
+        <!-- Formulario de Verificación -->
+        <div class="space-y-4">
+          <div>
+            <label htmlFor="dni" class="block text-gray-700 font-medium mb-2">DNI</label>
+            <input
+              type="text"
+              id="dni"
+              placeholder="Tu número de DNI (8 dígitos)"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              [value]="userDNI()"
+              (input)="onInputDNI($event)"
+              maxlength="8"
+            />
+          </div>
+          <div>
+            <label htmlFor="email" class="block text-gray-700 font-medium mb-2"
+              >Correo Electrónico</label
+            >
+            <div class="flex gap-2">
+              <input
+                type="email"
+                id="email"
+                placeholder="tu.correo@dominio.com"
+                class="flex-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                [value]="userEmail()"
+                (input)="onInputEmail($event)"
+                [disabled]="codeSent()"
+              />
+              <button
+                (click)="requestVerificationCode()"
+                [disabled]="isSendingCode() || !isValidEmail(userEmail()) || codeSent()"
+                class="px-4 py-2 font-medium text-white rounded-lg transition-all shadow-sm"
+                [class]="
+                  isSendingCode() || !isValidEmail(userEmail()) || codeSent()
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-blue-500 hover:bg-blue-600'
+                "
+              >
+                @if (isSendingCode()) {
+                  <span class="inline-flex items-center">
+                    <svg
+                      class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        class="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        class="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Enviando...
+                  </span>
+                } @else if (codeSent()) {
+                  Enviado
+                } @else {
+                  Enviar Código
+                }
+              </button>
+            </div>
+          </div>
+
+          <!-- Campo de Código (solo si se envió) -->
+          @if (codeSent()) {
+            <div class="animate-fade-in">
+              <label htmlFor="code" class="block text-gray-700 font-medium mb-2"
+                >Código de Verificación</label
+              >
+              <input
+                type="text"
+                id="code"
+                placeholder="Ingresa el código de 6 dígitos"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                [value]="verificationCode()"
+                (input)="onInputCode($event)"
+                maxlength="6"
+              />
+              <p class="text-sm text-gray-500 mt-1">
+                Te enviamos un código a {{ userEmail() }}. (Simulación: el código es 123456)
+              </p>
+            </div>
+          }
+        </div>
+
+        <!-- Mensaje de error (si existe) -->
+        @if (errorMessage()) {
+          <div class="mt-4 p-3 bg-red-100 text-red-700 rounded-lg text-center">
+            {{ errorMessage() }}
+          </div>
+        }
+
+        <!-- Botones de Acción -->
+        <div class="mt-6 pt-6 border-t flex flex-col sm:flex-row-reverse gap-3">
+          <button
+            class="w-full sm:w-auto text-white font-bold py-3 px-6 rounded-lg transition-all shadow-md flex-1"
+            (click)="finalConfirmReservation()"
+            [disabled]="
+              isVerifying() ||
+              !codeSent() ||
+              userDNI().length !== 8 ||
+              verificationCode().length !== 6
+            "
+            [class]="
+              isVerifying() ||
+              !codeSent() ||
+              userDNI().length !== 8 ||
+              verificationCode().length !== 6
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-green-500 hover:bg-green-600'
+            "
+          >
+            @if (isVerifying()) {
+              <span class="inline-flex items-center justify-center">
+                <svg
+                  class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Verificando...
+              </span>
+            } @else {
+              Confirmar Reserva
+            }
+          </button>
+          <button
+            class="w-full sm:w-auto bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-lg hover:bg-gray-200 transition-all"
+            (click)="goBackToBooking()"
+            [disabled]="isVerifying()"
+          >
+            Regresar
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- ====================================== -->
+    <!-- PASO 3: ÉXITO (Nuevo) -->
+    <!-- ====================================== -->
+    @case ('success') {
+      <div class="text-center py-12 animate-fade-in">
+        <svg
+          class="w-24 h-24 text-blue-500 mx-auto"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+        <h2 class="text-3xl font-bold text-gray-800 mt-4">¡Tu Reserva está Pendiente!</h2>
+        <p class="text-lg text-gray-600 mt-2">
+          Hemos registrado tu solicitud. Sigue los pasos a continuación para confirmarla.
+        </p>
+
+        <div class="my-8 text-left max-w-lg mx-auto p-6 bg-yellow-50 border-l-4 border-yellow-400">
+          <h4 class="font-bold text-lg text-yellow-800">¡Acción Requerida! Tienes 10 minutos</h4>
+          <p class="text-yellow-700 mt-2">
+            Para confirmar tu reserva, completa <span class="font-bold">uno</span> de los siguientes
+            pasos:
+          </p>
+          <ul class="list-disc list-inside text-yellow-700 space-y-3 mt-3">
+            <li>
+              <span class="font-bold">Opción 1 (Pago Digital):</span> Realiza el pago total de
+              <span class="font-bold">S/ {{ totalPrice().toFixed(2) }}</span> a nuestro Yape:
+              <span
+                class="font-bold text-xl block text-center my-2 py-2 bg-white rounded border border-yellow-200 tracking-wider"
+                >+51 912 345 678</span
+              >
+            </li>
+            <li>
+              <span class="font-bold">Opción 2 (Pago en Local):</span> Si deseas pagar en efectivo
+              en el local, envía una <span class="font-bold">foto clara de tu DNI</span> por
+              WhatsApp a este mismo número (+51 912 345 678) para validar tu identidad.
+            </li>
+          </ul>
+          <p class="text-yellow-800 font-semibold mt-4">
+            Si no recibimos tu pago o la validación por DNI en los próximos 10 minutos, tu reserva
+            será liberada automáticamente.
+          </p>
+        </div>
+
+        <div class="my-8 text-left max-w-md mx-auto p-6 bg-gray-50 rounded-lg border">
+          <h4 class="font-bold text-gray-800 text-lg mb-2">Detalles de tu Reserva:</h4>
+          <p>
+            <span class="text-gray-600">Fecha:</span>
+            <span class="font-medium">{{ formattedSelectedDate() }}</span>
+          </p>
+          <p>
+            <span class="text-gray-600">Cancha:</span>
+            <span class="font-medium">{{ selectedCourt() }}</span>
+          </p>
+          <p>
+            <span class="text-gray-600">Horarios:</span>
+            <span class="font-medium">{{ selectedSlotRanges().join(', ') }}</span>
+          </p>
+          <p class="mt-2 text-lg">
+            <span class="text-gray-600">Total:</span>
+            <span class="font-bold text-green-600">S/ {{ totalPrice().toFixed(2) }}</span>
+          </p>
+          <hr class="my-4" />
+          <p>
+            <span class="text-gray-600">DNI:</span> <span class="font-medium">{{ userDNI() }}</span>
+          </p>
+          <p>
+            <span class="text-gray-600">Email:</span>
+            <span class="font-medium">{{ userEmail() }}</span>
+          </p>
+        </div>
+
+        <button
+          class="w-full max-w-md mx-auto mt-6 bg-blue-500 text-white font-bold py-3 rounded-lg hover:bg-blue-600 transition-all shadow-md"
+          (click)="resetForm()"
+        >
+          Hacer otra Reserva
+        </button>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,23 @@
+<section
+  id="inicio"
+  class="relative h-[60vh] md:h-[80vh] bg-cover bg-center"
+  [ngStyle]="{ 'background-image': 'url(/images/fondo.jpg)' }"
+>
+  <div class="absolute inset-0 bg-black opacity-50"></div>
+  <div
+    class="relative container mx-auto px-6 h-full flex flex-col justify-center items-center text-center text-white"
+  >
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+      Bienvenido al Parque La Amistad
+    </h1>
+    <p class="text-lg md:text-xl max-w-2xl mb-8">
+      El pulmón verde de La Esperanza, un espacio para la familia, el deporte y la comunidad.
+    </p>
+    <a
+      href="/reservar"
+      class="bg-green-500 text-white font-bold py-3 px-8 rounded-full hover:bg-green-600 transition duration-300 text-lg shadow-lg"
+    >
+      Reserva una Cancha
+    </a>
+  </div>
+</section>
