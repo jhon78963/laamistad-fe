@@ -6,7 +6,6 @@ import {
 import {
   provideRouter,
   withEnabledBlockingInitialNavigation,
-  withHashLocation,
   withInMemoryScrolling,
 } from '@angular/router';
 
@@ -22,7 +21,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([tokenInterceptor, loadingInterceptor])),
     provideRouter(
       routes,
-      withHashLocation(),
       withEnabledBlockingInitialNavigation(),
       withInMemoryScrolling({
         scrollPositionRestoration: 'enabled', // Mantener el scroll al navegar hacia atrás/adelante
