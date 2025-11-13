@@ -5,16 +5,28 @@
       <p class="text-gray-600 mt-2">Un vistazo a los mejores momentos en el Parque La Amistad.</p>
     </div>
     <div class="columns-2 md:columns-4 gap-4">
-      @for (img of galleryImages; track $index) {
+      @for (media of galleryMedia; track $index) {
         <div class="mb-4 break-inside-avoid">
-          <img
-            [src]="img.src"
-            [alt]="img.alt"
-            [width]="img.width"
-            [height]="img.height"
-            class="h-auto max-w-full rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300"
-            loading="lazy"
-          />
+          @if (media.type === 'image') {
+            <img
+              [src]="media.src"
+              [alt]="media.alt"
+              [width]="media.width"
+              [height]="media.height"
+              class="h-auto max-w-full rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+          } @else if (media.type === 'video') {
+            <video
+              controls
+              [width]="media.width"
+              [height]="media.height"
+              class="h-auto max-w-full rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            >
+              <source [src]="media.src" type="video/mp4" />
+            </video>
+          }
         </div>
       }
     </div>

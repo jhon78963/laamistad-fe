@@ -15,6 +15,17 @@ export const routes: Routes = [
   //   loadComponent: () => import('./pages/register/pages/register').then((m) => m.Register),
   // },
   {
+    path: 'festival-navideño',
+    loadComponent: () => import('./pages/home/sections/news-section/tree/tree').then((m) => m.Tree),
+  },
+  {
+    path: 'horarios',
+    loadComponent: () =>
+      import('./pages/home/sections/schedule-section/schedule-section').then(
+        (m) => m.ScheduleSection,
+      ),
+  },
+  {
     path: 'reservar',
     loadComponent: () => import('./pages/reservation/reservation').then((m) => m.Reservation),
   },

@@ -7,30 +7,34 @@ import { Component } from '@angular/core';
   styleUrl: './gallery-section.scss',
 })
 export class GallerySection {
-  galleryImages = [
+  galleryMedia = [
     {
       src: 'https://upload-la-amistad.zerogroups.net.pe/storage/images/imagen1.jpeg',
       alt: 'Galería Parque 1',
       width: 500,
       height: 800,
+      type: 'image',
     },
     {
       src: 'https://upload-la-amistad.zerogroups.net.pe/storage/images/imagen2.jpeg',
       alt: 'Galería Parque 2',
       width: 500,
       height: 500,
+      type: 'image',
     },
     {
       src: 'https://upload-la-amistad.zerogroups.net.pe/storage/images/imagen3.jpeg',
       alt: 'Galería Parque 3',
       width: 500,
       height: 500,
+      type: 'image',
     },
     {
       src: 'https://upload-la-amistad.zerogroups.net.pe/storage/images/imagen4.jpeg',
       alt: 'Galería Parque 4',
       width: 500,
       height: 800,
+      type: 'image',
     },
     {
       src: 'https://upload-la-amistad.zerogroups.net.pe/storage/images/imagen5.jpeg',
@@ -43,12 +47,21 @@ export class GallerySection {
       alt: 'Galería Parque 6',
       width: 500,
       height: 500,
+      type: 'image',
     },
     {
       src: 'https://upload-la-amistad.zerogroups.net.pe/storage/images/imagen7.jpeg',
       alt: 'Galería Parque 7',
       width: 500,
       height: 500,
+      type: 'image',
+    },
+    {
+      src: 'https://upload-la-amistad.zerogroups.net.pe/storage/images/video1.mp4',
+      alt: 'Galería Parque 8',
+      width: 500,
+      height: 500,
+      type: 'video',
     },
   ];
 }
